@@ -19,4 +19,21 @@ In this project, I used Solidity, the most popular language for writing Ethereum
 
 By chaining together multiple token swaps, your smart contract ensures you're always converting back to BTC.
 
+<h2>Smart Contract Pseudocode</h2>
+<ul>
+  <li>1. Fetch current prices for BTC, ETH, and USD from exchange APIs.</li>
+  <li>2. Calculate if a profit is possible by converting: <b>BTC → USD → ETH → BTC</b></li>
+  <li>
+    3. If profit > 0:
+    <ul>
+      <li>a) Execute trade 1: Swap BTC for USD</li>
+      <li>b) Execute trade 2: Swap USD for ETH</li>
+      <li>c) Execute trade 3: Swap ETH back to BTC</li>
+    </ul>
+  </li>
+  <li>4. Log the transaction and profit.</li>
+</ul>
+
+
+
 
