@@ -44,3 +44,35 @@ This discrepancy happens because the <b><u>exchange rates between currency pairs
 
 <p>This is where smart contracts come in. These are self-operating programs that live on a blockchain. Once set up, they can automatically spot price differences and execute trades instantly without needing any human input. This makes arbitrage faster, more reliable, and available 24/7.</p>
 
+<h2>Arbitrage Bot vs. Flash Loan: What’s the Difference?</h2>
+Both arbitrage bots and flash loans are used in the crypto space to profit from short-term opportunities, but they work in very different ways.
+
+<h3>🤖 Arbitrage Bot</h3>
+<ul>
+<li>Runs off-chain (usually in an IDE using javascript or python as the programming language).</li>
+
+<li>Monitors price differences across exchanges.</li>
+
+<li>Uses your own capital (or connected wallet) to buy low on one DEX and sell high on another.</li>
+
+<li>Trades can happen over seconds or minutes.</li>
+
+<li>Profits are made from market inefficiencies.</li>
+</ul>
+
+The best way to visualize arbitrage is to think of a trader watching prices in multiple places and clicking "buy" and "sell" quickly when they spot a price mismatch.
+
+<h3>⚡ Flash Loan Arbitrage</h3>
+<ul>
+<li>A smart contract-based technique that borrows large amounts of crypto instantly and without collateral, but must <b>repay</b> it within the same transaction.</li>
+
+<li>If done correctly, no upfront capital is needed.</li>
+
+<li>Commonly used for high-speed arbitrage or complex DeFi strategies (like swapping across multiple DEXs in one transaction).</li>
+
+<li> When you're working with smart contracts on blockchains like Ethereum, you pay gas fees whether your transaction works or not.If any part of the transaction fails, it gets reverted automatically, and the loan is never issued.</li>
+
+
+✨<b> You can reduce the amount of gas you lose by using smart gas optimization strategies. Writing efficient code helps you save gas on both successful and failed attempts.</b>
+
+The best way to visualize a flash loan is think about borrowing $1M to buy cheap crypto (i.e SEI coin -currently priced at $0.35 cents CAD/per coin), selling them instantly at a profit, repaying the loan, and keeping the leftover — all within a single blockchain transaction! 🤯 🤑
