@@ -42,4 +42,5 @@ This discrepancy happens because the <b><u>exchange rates between currency pairs
 Crypto arbitrage can be done manually. A person watches price movements across different exchanges and quickly buys low on one and sells high on another. But this approach requires constant attention and quick reactions, which can be hard to maintain.
 
 
+
 This is where smart contracts come in. These are self-operating programs that live on a blockchain. Once set up, they can automatically spot price differences and execute trades instantly without needing any human input. This makes arbitrage faster, more reliable, and available 24/7.
