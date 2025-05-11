@@ -1,1 +1,10 @@
+<h1>What Is Arbitrage?</h1>
+Arbitrage is a trading strategy where you buy an asset at a lower price on one exchange and sell it at a higher price on another, pocketing the difference. 
+In crypto, price differences can happen due to:
+<ul>
+  <li>Network delays</li>
+  <li>Different liquidity on each exchange</li>
+  <li>Rapid market changes</li>
+</ul>
 
+Since trades happen fast and crypto prices are volatile, bots are ideal for spotting and executing these trades instantly.
