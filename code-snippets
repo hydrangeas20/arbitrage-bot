@@ -1,0 +1,61 @@
+1. Pair Structuring Logic
+This part of the code organizes all available trading pairs into triangular combinations. 
+For example, BTC can be traded for USD, USD for ETH, and ETH back to BTC. The bot structures the loop and prepares it for analysis.
+
+  # Create all possible triangular pairs from available symbols
+def find_triangular_pairs(symbols):
+    triangular_pairs = []
+    for base in symbols:
+        for intermediate in symbols:
+            for target in symbols:
+                if base != intermediate and intermediate != target and base != target:
+                    triangular_pairs.append((base, intermediate, target))
+    return triangular_pairs
+
+# Example:
+symbols = ["BTC/USD", "USD/ETH", "ETH/BTC"]
+pairs = find_triangular_pairs(symbols)
+print("Possible Triangular Pairs:", pairs)
+
+2. Price Checking Logic
+After forming trading loops, the bot checks current prices from the exchange APIs to see if converting from BTC → USD → ETH → BTC 
+will result in more BTC than I started with. If the numbers line up, that’s a profit!
+  
+  # Simulated exchange rate dictionary (this data would come from the API)
+prices = {
+    "BTC/USD": 30000,
+    "USD/ETH": 0.0005,
+    "ETH/BTC": 33
+}
+
+def check_arbitrage(prices):
+    try:
+        btc_usd = prices["BTC/USD"]
+        usd_eth = prices["USD/ETH"]
+        eth_btc = prices["ETH/BTC"]
+        
+        # Start with 1 BTC, convert to USD, then ETH, then back to BTC
+        usd = 1 * btc_usd
+        eth = usd * usd_eth
+        final_btc = eth / eth_btc
+        
+        profit = final_btc - 1
+        return profit
+    except KeyError:
+        return None
+
+# Run the check
+profit = check_arbitrage(prices)
+print("Potential Profit in BTC:", profit)
+
+  
+3. Profit Condition Check
+If the bot calculates a profit greater than zero after going through the loop (BTC → USD → ETH → BTC). 
+This is incredibly important condition, I'm teaching the bot to recognize if the arbitrage opportunity is worth executing.
+
+  profit_threshold = 0.0001  # BTC profit threshold (this can be changed!)
+
+if profit and profit > profit_threshold:
+    print(f"Arbitrage Opportunity Found! Estimated Profit: {profit:.8f} BTC")
+else:
+    print("No arbitrage opportunity right now.")
