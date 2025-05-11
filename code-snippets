@@ -50,7 +50,7 @@ print("Potential Profit in BTC:", profit)
 
   
 3. Profit Condition Check
-If the bot calculates a profit greater than zero after going through the loop (BTC → USD → ETH → BTC). 
+The bot calculates a profit greater than zero after going through the loop (BTC → USD → ETH → BTC). 
 This is incredibly important condition, I'm teaching the bot to recognize if the arbitrage opportunity is worth executing.
 
   profit_threshold = 0.0001  # BTC profit threshold (this can be changed!)
