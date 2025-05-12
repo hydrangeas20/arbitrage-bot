@@ -2,15 +2,27 @@
 This part of the code organizes all available trading pairs into triangular combinations. 
 For example, BTC can be traded for USD, USD for ETH, and ETH back to BTC. The bot structures the loop and prepares it for analysis.
 
-  # Create all possible triangular pairs from available symbols
-def find_triangular_pairs(symbols):
-    triangular_pairs = []
-    for base in symbols:
-        for intermediate in symbols:
-            for target in symbols:
-                if base != intermediate and intermediate != target and base != target:
-                    triangular_pairs.append((base, intermediate, target))
-    return triangular_pairs
+# Make a get request
+def get_coin_tickers(url):
+    req = requests.get(url)
+    json_resp = json.loads(req.text)
+    return json_resp
+
+
+# Loop through each objects and find the trade able pairs
+def collect_tradeables(json_obj, ending_currency):
+    coin_list = []
+    for pair_name, pair_info in json_obj["result"].items():
+        if pair_info["wsname"] == pair_name and pair_info["altname"].endswith(ending_currency):
+            coin_list.append(pair_info["wsname"])
+    return coin_list
+
+# Structure Arbitrage Pairs
+def structure_triangular_pairs(coin_list):
+    # Declare Variables
+    triangular_pairs_list = []
+    remove_duplicates_list = []
+    pairs_list = coin_list[0:]
 
 # Example:
 symbols = ["BTC/USD", "USD/ETH", "ETH/BTC"]
@@ -21,41 +33,55 @@ print("Possible Triangular Pairs:", pairs)
 After forming trading loops, the bot checks current prices from the exchange APIs to see if converting from BTC → USD → ETH → BTC 
 will result in more BTC than I started with. If the numbers line up, that’s a profit!
   
-  # Simulated exchange rate dictionary (this data would come from the API)
-prices = {
-    "BTC/USD": 30000,
-    "USD/ETH": 0.0005,
-    "ETH/BTC": 33
-}
+# Structure Prices
+def get_price_for_t_pair(t_pair, prices_json):
+    # Extract Pair Info
+    pair_a = t_pair["pair_a"]
+    pair_b = t_pair["pair_b"]
+    pair_c = t_pair["pair_c"]
 
-def check_arbitrage(prices):
-    try:
-        btc_usd = prices["BTC/USD"]
-        usd_eth = prices["USD/ETH"]
-        eth_btc = prices["ETH/BTC"]
-        
-        # Start with 1 BTC, convert to USD, then ETH, then back to BTC
-        usd = 1 * btc_usd
-        eth = usd * usd_eth
-        final_btc = eth / eth_btc
-        
-        profit = final_btc - 1
-        return profit
-    except KeyError:
-        return None
+    # Extract Price Information for Given Pairs
+    pair_a_ask = float(prices_json[pair_a]["lowestAsk"])
+    pair_a_bid = float(prices_json[pair_a]["highestBid"])
+    pair_b_ask = float(prices_json[pair_b]["lowestAsk"])
+    pair_b_bid = float(prices_json[pair_b]["highestBid"])
+    pair_c_ask = float(prices_json[pair_c]["lowestAsk"])
+    pair_c_bid = float(prices_json[pair_c]["highestBid"])
 
-# Run the check
-profit = check_arbitrage(prices)
-print("Potential Profit in BTC:", profit)
-
+    # Output Dictionary
+    return {
+        "pair_a_ask": pair_a_ask,
+        "pair_a_bid": pair_a_bid,
+        "pair_b_ask": pair_b_ask,
+        "pair_b_bid": pair_b_bid,
+        "pair_c_ask": pair_c_ask,
+        "pair_c_bid": pair_c_bid
+    }
   
 3. Profit Condition Check
 The bot calculates a profit greater than zero after going through the loop (BTC → USD → ETH → BTC). 
 This is incredibly important condition, I'm teaching the bot to recognize if the arbitrage opportunity is worth executing.
+# Determining Triangular Match
+   if counts_c_base == 2 and counts_c_quote == 2 and c_base != c_quote:
+      combined = pair_a + "," + pair_b + "," + pair_c
+      unique_item = ''.join(sorted(combine_all))
 
-  profit_threshold = 0.0001  # BTC profit threshold (this can be changed!)
+   if unique_item not in remove_duplicates_list:
+      match_dict = {
+       "a_base": a_base,
+       "b_base": b_base,
+       "c_base": c_base,
+       "a_quote": a_quote,
+       "b_quote": b_quote,
+       "c_quote": c_quote,
+       "pair_a": pair_a,
+       "pair_b": pair_b,
+       "pair_c": pair_c,
+       "combined": combined
+     }
+   triangular_pairs_list.append(match_dict)
+   remove_duplicates_list.append(unique_item)
 
-if profit and profit > profit_threshold:
-    print(f"Arbitrage Opportunity Found! Estimated Profit: {profit:.8f} BTC")
-else:
-    print("No arbitrage opportunity right now.")
+    # Return result
+    return triangular_pairs_list
+
