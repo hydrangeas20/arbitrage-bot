@@ -35,3 +35,8 @@ Hardhat is a free environment that you can test, simulate and debug your smart c
 
 <h3> 📝 Important Note: The code snippets for educational purposes only. The entire code will not be provided. The snippets should not be used for real trading unless thoroughly tested in a controlled environment.</h3>
 
+<h2> Sources Used in the Project:</h2> Youtube - Dapp University, <a href="https://www.coinbase.com/en-ca/learn/advanced-trading/what-is-crypto-arbitrage-trading">Coinbase</a>, <a href="https://www.coingecko.com/learn/crypto-arbitrage-bot-python">CoinGecko</a>
+
+
+
+
