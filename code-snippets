@@ -1,6 +1,6 @@
-1. Pair Structuring Logic
-This part of the code organizes all available trading pairs into triangular combinations. 
-For example, BTC can be traded for USD, USD for ETH, and ETH back to BTC. The bot structures the loop and prepares it for analysis.
+1. Fetching Trading Pairs 
+Thisfunction sends a request to the API URL to retrieve the latest trading pairs from the exchange's API. 
+It then parses the JSON response and returns it for further processing.
 
 # Make a get request
 def get_coin_tickers(url):
@@ -8,7 +8,8 @@ def get_coin_tickers(url):
     json_resp = json.loads(req.text)
     return json_resp
 
-
+This function filters the fetched trading pairs to identify those that end with a specific currency I'm looking for (e.g., USD). 
+It compiles a list of these pairs, which are potential candidates for triangular arbitrage.
 # Loop through each objects and find the trade able pairs
 def collect_tradeables(json_obj, ending_currency):
     coin_list = []
@@ -30,8 +31,8 @@ pairs = find_triangular_pairs(symbols)
 print("Possible Triangular Pairs:", pairs)
 
 2. Price Checking Logic
-After forming trading loops, the bot checks current prices from the exchange APIs to see if converting from BTC → USD → ETH → BTC 
-will result in more BTC than I started with. If the numbers line up, that’s a profit!
+This function retrieves the current bid and ask prices for each of the three pairs in a triangular set. 
+These prices are crucial for calculating potential profits from arbitrage opportunities.
   
 # Structure Prices
 def get_price_for_t_pair(t_pair, prices_json):
@@ -58,9 +59,11 @@ def get_price_for_t_pair(t_pair, prices_json):
         "pair_c_bid": pair_c_bid
     }
   
-3. Profit Condition Check
-The bot calculates a profit greater than zero after going through the loop (BTC → USD → ETH → BTC). 
-This is incredibly important condition, I'm teaching the bot to recognize if the arbitrage opportunity is worth executing.
+3. Identifying Profitable Triangular Opportunities
+This part of the code checks if the identified triangular pair is unique and hasn't been evaluated before.
+If it's a new combination, it adds it to the list of potential arbitrage opportunities for further analysis.
+This is an incredibly important condition. I'm teaching the bot to find unique arbitrage opportunities, which can be analyzed later if they are worth executing.
+
 # Determining Triangular Match
    if counts_c_base == 2 and counts_c_quote == 2 and c_base != c_quote:
       combined = pair_a + "," + pair_b + "," + pair_c
@@ -84,4 +87,3 @@ This is incredibly important condition, I'm teaching the bot to recognize if the
 
     # Return result
     return triangular_pairs_list
-
