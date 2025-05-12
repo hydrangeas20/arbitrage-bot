@@ -1,5 +1,5 @@
 1. Fetching Trading Pairs 
-Thisfunction sends a request to the API URL to retrieve the latest trading pairs from the exchange's API. 
+This function sends a request to the API URL to retrieve the latest trading pairs from the exchange's API. 
 It then parses the JSON response and returns it for further processing.
 
 # Make a get request
